@@ -1,46 +1,68 @@
+"use client";
 import { useState } from "react";
-import { useRouter } from "next/router";
 import { authenticate } from "@/app/lib/actions";
+import { useFormState, useFormStatus } from "react-dom";
 
-export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const router = useRouter();
+export default function Page() {
+  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      await authenticate(email, password);
-      // If authentication succeeds, redirect the user to another page
-      router.push("/dashboard"); // Redirect to the dashboard page
-    } catch (error) {
-      setError(error.message);
-    }
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Dispatch the authenticate action with formData
+    dispatch(formData);
+  };
+
+  console.log(formData, "formData");
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="bg-stone-300 h-screen flex justify-center items-center ">
+      <form className="bg-white p-5 flex flex-col" onSubmit={handleSubmit}>
         <input
           type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          className="mb-5 px-2 border"
           placeholder="Email"
           required
         />
         <input
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          className="mb-5 px-2 border"
           placeholder="Password"
           required
         />
-        <button type="submit">Login</button>
-        {error && <p>{error}</p>}
+        <br />
+        <div>{errorMessage && <p>{errorMessage}</p>}</div>
+        <LoginButton />
       </form>
     </div>
+  );
+}
+
+function LoginButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      aria-disabled={pending}
+      className="bg-black text-white py-2 px-5 rounded"
+      type="submit"
+    >
+      Login
+    </button>
   );
 }

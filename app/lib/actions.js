@@ -1,8 +1,9 @@
 'use server'
  
-import { signIn } from '@/auth'
+import { signIn } from '../lib/auth';
  
 export async function authenticate(_currentState, formData) {
+    console.log("authentication",formData)
   try {
     await signIn('credentials', formData)
   } catch (error) {
