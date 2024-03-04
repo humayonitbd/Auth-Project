@@ -13,11 +13,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <nav className="flex justify-center items-center py-5 bg-black text-white">
-          <li><Link>Home</Link></li>
-          <li><Link>About</Link></li>
-          <li><Link>Login</Link></li>
-        </nav>
+        <ul className="flex justify-center items-center py-5 bg-black text-white">
+          <li className="mr-5"><Link href={'/'}>Home</Link></li>
+          <li className="mr-5"><Link href={'/about'}>About</Link></li>
+          <li className=""><Link href={'/login'}>Login</Link></li>
+        </ul>
         {children}
       </body>
     </html>
