@@ -6,3 +6,4 @@ export const options:NextAuthOptions = {
         signIn:"/signin"
     }
 }
+
