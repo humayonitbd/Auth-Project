@@ -3,7 +3,7 @@
 // Simulated user data
 const users = [
   { email: 'user1@example.com', password: 'password1', name: 'User 1' },
-  { email: 'user2@example.com', password: 'password2', name: 'User 2' }
+  
 ];
 
 // Simulated authentication function
